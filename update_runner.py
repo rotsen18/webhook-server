@@ -1,12 +1,12 @@
 import subprocess
 import os
+
 import settings
-from settings import Application
-from webhook import app
+from app import app
 
 
 class Builder:
-    def __init__(self, application: Application):
+    def __init__(self, application):
         self.application = application
 
     @staticmethod

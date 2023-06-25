@@ -1,6 +1,6 @@
 from flask import Flask, request
 
-import settings
+import application_parser
 import update_runner
 
 app = Flask(__name__)
@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route('/webhook/github/', methods=['POST'])
 def github_webhook():
-    application = getattr(settings.target_applications, 'receipt')
+    application = getattr(application_parser.target_applications, 'receipt')
     builder = update_runner.Builder(application=application)
     event_type = request.headers.get('X-GitHub-Event')
     if event_type == 'push':
@@ -21,7 +21,7 @@ def github_webhook():
 
 @app.route('/webhook/test/', methods=['GET'])
 def test_webhook():
-    application = getattr(settings.target_applications, 'receipt')
+    application = getattr(application_parser.target_applications, 'receipt')
     builder = update_runner.Builder(application=application)
     return 'Webhook test successful', 200
 
