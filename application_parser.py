@@ -18,8 +18,9 @@ class Application:
     @property
     def services(self):
         result = []
-        for service in self.web, self.bot:
-            result.append(service)
+        for service in [self.web, self.bot]:
+            if service:
+                result.append(service)
         return result
 
 
