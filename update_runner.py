@@ -25,7 +25,7 @@ class Builder:
 
     @staticmethod
     def stage_restart_service(service_name: str):
-        subprocess.run(['systemctl', 'restart', f'{service_name}.service'])
+        subprocess.run(['systemctl', 'restart', service_name])
         return True
 
     def run(self):
@@ -42,8 +42,8 @@ class Builder:
         for service_name in services_to_build:
             try:
                 self.stage_restart_service(service_name=service_name)
-                logger.info(f'Restarted {service_name}.service')
+                logger.info(f'Restarted {service_name}')
             except Exception as e:
-                logger.debug(f'Failed to restart service {service_name}.service')
+                logger.debug(f'Failed to restart service {service_name}')
                 logger.debug(e)
         return True
