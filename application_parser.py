@@ -1,9 +1,11 @@
 from dataclasses import dataclass
 
 import yaml
-
+import logging
 from settings import APPS_CONFIG_FILE
-from update_runner import app
+
+
+logger = logging.getLogger('webhook_server')
 
 
 @dataclass
@@ -34,7 +36,7 @@ class ServiceApplications:
         self.applications = self.parse_applications(raw_data)
 
     def load_apps(self, file_path):
-        app.logger.info(f'Loading applications from {file_path}')
+        logger.info(f'Loading applications from {file_path}')
         with open(file_path, 'r') as file:
             return yaml.safe_load(file)
 
@@ -52,7 +54,7 @@ class ServiceApplications:
                 setattr(application, sub_app_name, service)
             setattr(self, app_name, application)
             all_applications.append(application)
-            app.logger.info(f'Loaded {app_name} application with services: {application.services_names}')
+            logger.info(f'Loaded {app_name} application with services: {application.services_names}')
         return all_applications
 
 

@@ -1,8 +1,10 @@
 import os
 import subprocess
-
+import logging
 import settings
-from app import app
+
+
+logger = logging.getLogger('webhook_server')
 
 
 class Builder:
@@ -25,16 +27,16 @@ class Builder:
         else:
             services_to_build = self.application.services
         try:
-            app.logger.info(f'Updating {self.application} service')
+            logger.info(f'Updating {self.application} service')
             self.git(app_directory=services_to_build[0].directory)
         except Exception as e:
-            app.logger.debug(e)
+            logger.debug(e)
             return False
         for service in services_to_build:
             try:
                 self.restart(service_name=service.service_name)
-                app.logger.info(f'Restarted {service.name}.service')
+                logger.info(f'Restarted {service.name}.service')
             except Exception as e:
-                app.logger.debug(f'Failed to restart service {service.service_name}.service')
-                app.logger.debug(e)
+                logger.debug(f'Failed to restart service {service.service_name}.service')
+                logger.debug(e)
         return True
