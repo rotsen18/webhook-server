@@ -40,9 +40,9 @@ def index():
     for application in application_parser.target_applications.applications:
         app_services = application.services
         for service in app_services:
-            result = subprocess.run(['systemctl', 'status', service])
+            # result = subprocess.run(['systemctl', 'status', service])
             service_statuses.append(f'<h3>{service}</h3>')
-            service_statuses.append(f'<p>{result}</p>')
+            # service_statuses.append(f'<p>{result}</p>')
     return '\n'.join(service_statuses)
 
 

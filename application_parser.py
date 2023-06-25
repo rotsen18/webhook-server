@@ -25,6 +25,8 @@ class Application:
 
 
 class ServiceApplications:
+    all_services = []
+
     def __init__(self):
         raw_data = self.load_apps(APPS_CONFIG_FILE)
         self.applications = self.parse_applications(raw_data)
