@@ -1,3 +1,5 @@
+import subprocess
+
 from flask import Flask, request
 
 import application_parser
@@ -33,8 +35,14 @@ def test_webhook():
 
 
 @app.route('/')
-def hello_world():
-    return "<p>Hello, World!</p>"
+def index():
+    service_statuses = []
+    for application in application_parser.target_applications.applications:
+        for app_services in application.services:
+            for service in app_services:
+                result = subprocess.run(['systemctl', 'status', service])
+                service_statuses.append(f'<p>{result}</p>')
+    return '\n'.join(service_statuses)
 
 
 if __name__ == '__main__':
