@@ -1,5 +1,5 @@
-import subprocess
 import os
+import subprocess
 
 import settings
 from app import app

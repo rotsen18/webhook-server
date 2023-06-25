@@ -2,8 +2,8 @@ from dataclasses import dataclass
 
 import yaml
 
-from update_runner import app
 from settings import APPS_CONFIG_FILE
+from update_runner import app
 
 
 @dataclass
