@@ -1,7 +1,9 @@
 receipt:
-  - web:
-    - directory: 'receipt'
-    - service_name: 'receipt-back.service'
-  - bot:
-    - directory: 'receipt'
-    - service_name: 'receipt-bot.service'
+  - directory: 'receipt'
+  - services:
+      - bot: 'receipt-bot.service'
+      - web: 'webhook-back.service'
+webhook-server:
+    - directory: 'webhook'
+    - services:
+        - web: 'webhook-back.service'
