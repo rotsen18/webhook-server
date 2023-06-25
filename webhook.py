@@ -19,12 +19,17 @@ def github_webhook():
         return 'Invalid webhook event', 400
 
 
-@app.route('/webhook/test/', methods=['GET'])
+@app.route('/webhook/test/', methods=['GET', 'POST'])
 def test_webhook():
     application = getattr(application_parser.target_applications, 'receipt')
     builder = update_runner.Builder(application=application)
     return 'Webhook test successful', 200
 
 
+@app.route('/')
+def hello_world():
+    return "<p>Hello, World!</p>"
+
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5100)
