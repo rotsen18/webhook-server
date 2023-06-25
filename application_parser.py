@@ -1,9 +1,9 @@
+import logging
 from dataclasses import dataclass
 
 import yaml
-import logging
-from settings import APPS_CONFIG_FILE
 
+from settings import APPS_CONFIG_FILE
 
 logger = logging.getLogger('webhook_server')
 

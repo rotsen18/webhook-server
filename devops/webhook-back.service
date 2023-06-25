@@ -1,0 +1,16 @@
+[Unit]
+Description=webhook backend service
+
+[Service]
+Type=forking
+ExecStart=/opt/apps/webhook-server/venv/bin/gunicorn webhook:app --config /opt/apps/webhook-server/devops/gunicorn.conf.py
+KillSignal=SIGQUIT
+Type=notify
+StandardError=syslog
+NotifyAccess=main
+WorkingDirectory=/opt/apps/webhook-server/
+Restart=always
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target

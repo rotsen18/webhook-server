@@ -1,8 +1,8 @@
+import logging
 import os
 import subprocess
-import logging
-import settings
 
+import settings
 
 logger = logging.getLogger('webhook_server')
 
