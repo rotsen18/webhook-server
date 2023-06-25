@@ -14,18 +14,18 @@ class Builder:
     @staticmethod
     def stage_update(app_directory: str):
         app_path = os.path.join(settings.BASE_TARGET_APPS_DIR, app_directory)
-        # subprocess.run(['git', '-C', app_path, 'pull'])
+        subprocess.run(['git', '-C', app_path, 'pull'])
         return True
 
     @staticmethod
     def stage_install_requirements(app_directory: str):
         app_path = os.path.join(settings.BASE_TARGET_APPS_DIR, app_directory)
-        # subprocess.run(['pip', 'install', '-r', os.path.join(app_path, 'requirements.txt')])
+        subprocess.run(['pip', 'install', '-r', os.path.join(app_path, 'requirements.txt')])
         return True
 
     @staticmethod
     def stage_restart_service(service_name: str):
-        # return subprocess.run(['systemctl', 'restart', f'{service_name}.service'])
+        subprocess.run(['systemctl', 'restart', f'{service_name}.service'])
         return True
 
     def run(self):
