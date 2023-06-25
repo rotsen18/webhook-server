@@ -1,0 +1,7 @@
+receipt:
+  - web:
+    - directory: 'receipt'
+    - service_name: 'receipt-back.service'
+  - bot:
+    - directory: 'receipt'
+    - service_name: 'receipt-bot.service'
