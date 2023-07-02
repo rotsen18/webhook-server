@@ -24,6 +24,8 @@ class Builder:
     @staticmethod
     def stage_install_requirements(app_directory: str):
         app_path = os.path.join(settings.BASE_TARGET_APPS_DIR, app_directory)
+        venv_path = os.path.join(app_path, 'venv/bin/activate')
+        subprocess.run(['source', venv_path])
         subprocess.run(['pip', 'install', '-r', os.path.join(app_path, 'requirements.txt')])
         logger.debug(f'Installed requirements for {app_directory} application')
         return True
