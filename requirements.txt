@@ -1,4 +1,4 @@
 Flask
 pyyaml
-
+gitpython==3.1.31
 python-dotenv

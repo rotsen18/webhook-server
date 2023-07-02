@@ -2,9 +2,11 @@ import logging
 import os
 import subprocess
 
+from git import Repo
+
 import settings
 
-logger = logging.getLogger('webhook_server')
+logger = logging.getLogger(__name__)
 
 
 class Builder:
@@ -13,19 +15,23 @@ class Builder:
 
     @staticmethod
     def stage_update(app_directory: str):
-        app_path = os.path.join(settings.BASE_TARGET_APPS_DIR, app_directory)
-        subprocess.run(['git', '-C', app_path, 'pull'])
+        repo_path = os.path.join(settings.BASE_TARGET_APPS_DIR, app_directory)
+        repo = Repo(repo_path)
+        repo.remotes.origin.pull()
+        logger.debug(f'Updated {app_directory} repository')
         return True
 
     @staticmethod
     def stage_install_requirements(app_directory: str):
         app_path = os.path.join(settings.BASE_TARGET_APPS_DIR, app_directory)
         subprocess.run(['pip', 'install', '-r', os.path.join(app_path, 'requirements.txt')])
+        logger.debug(f'Installed requirements for {app_directory} application')
         return True
 
     @staticmethod
     def stage_restart_service(service_name: str):
         subprocess.run(['systemctl', 'restart', service_name])
+        logger.debug(f'Restarted {service_name} service')
         return True
 
     def run(self):
