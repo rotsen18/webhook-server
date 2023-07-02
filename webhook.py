@@ -7,18 +7,24 @@ import update_runner
 
 app = Flask(__name__)
 
-logger = logging.getLogger('webhook_server')
+app.logger.setLevel(logging.DEBUG)
+
+handler = logging.StreamHandler()
+handler.setLevel(logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+app.logger.addHandler(handler)
 
 
 @app.route('/webhook/github/', methods=['POST'])
 def github_webhook():
     repo_name = request.json['repository']['name']
-    logger.info(f'Received webhook event from GitHub for {repo_name} repository')
+    app.logger.info(f'Received webhook event from GitHub for {repo_name} repository')
     application = getattr(application_parser.target_applications, repo_name)
     builder = update_runner.Builder(application=application)
     event_type = request.headers.get('X-GitHub-Event')
     if event_type == 'push':
-        logger.info(f'Received update event from GitHub for {application.name} application')
+        app.logger.info(f'Received update event from GitHub for {application.name} application')
         builder.run()
         return 'Webhook received and processed successfully', 200
     elif event_type == 'ping':
@@ -30,7 +36,7 @@ def github_webhook():
 @app.route('/webhook/test/', methods=['GET', 'POST'])
 def test_webhook():
     repo_name = request.json['repository']['name']
-    logger.info(f'Received webhook event from GitHub for {repo_name} repository')
+    app.logger.info(f'Received webhook event from GitHub for {repo_name} repository')
     application = getattr(application_parser.target_applications, 'receipt')
     builder = update_runner.Builder(application=application)
     return 'Webhook test successful', 200
