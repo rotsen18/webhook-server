@@ -34,7 +34,7 @@ def test_webhook():
     return 'Webhook test successful', 200
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
     service_statuses = []
     for application in application_parser.target_applications.applications:
