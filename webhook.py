@@ -36,7 +36,7 @@ def github_webhook():
 @app.route('/webhook/test/', methods=['GET', 'POST'])
 def test_webhook():
     repo_name = request.json['repository']['name']
-    app.logger.info(f'Received webhook event from GitHub for {repo_name} repository')
+    app.logger.info(f'Received test webhook event from GitHub for {repo_name} repository')
     application = getattr(application_parser.target_applications, 'receipt')
     builder = update_runner.Builder(application=application)
     return 'Webhook test successful', 200
