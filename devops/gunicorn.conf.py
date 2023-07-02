@@ -10,3 +10,4 @@ access_log_format = '%({x-forwarded-for}i)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)
 accesslog = '/var/log/webhook_server_access.log'
 errorlog = '/var/log/webhook_server_error.log'
 worker_class = 'gevent'
+loglevel = 'debug'
