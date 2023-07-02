@@ -28,8 +28,8 @@ def github_webhook():
     event_type = request.headers.get('X-GitHub-Event')
     if event_type == 'push':
         app.logger.info(f'Received update event from GitHub for {application.name} application')
-        builder.run()
-        return 'Webhook received and processed successfully', 200
+        result = builder.run()
+        return f'Webhook received and processed with result: {result}', 200
     elif event_type == 'ping':
         return 'Webhook received successfully', 200
     else:
@@ -61,6 +61,7 @@ class Builder:
 
     @staticmethod
     def stage_update(app_directory: str):
+        app.logger.debug(f'Start pulling repo from {app_directory} repository')
         repo_path = os.path.join(settings.BASE_TARGET_APPS_DIR, app_directory)
         repo = Repo(repo_path)
         repo.remotes.origin.pull()
@@ -69,6 +70,7 @@ class Builder:
 
     @staticmethod
     def stage_install_requirements(app_directory: str):
+        app.logger.debug(f'Start installing requirements for {app_directory} application')
         app_path = os.path.join(settings.BASE_TARGET_APPS_DIR, app_directory)
         venv_path = os.path.join(app_path, 'venv/bin/activate')
         subprocess.run(['source', venv_path])
@@ -78,6 +80,7 @@ class Builder:
 
     @staticmethod
     def stage_restart_service(service_name: str):
+        app.logger.debug(f'Restarting {service_name} service')
         subprocess.run(['systemctl', 'restart', service_name])
         app.logger.debug(f'Restarted {service_name} service')
         return True
@@ -86,9 +89,7 @@ class Builder:
         services_to_build = self.application.services
         directory = self.application.directory
         try:
-            app.logger.info(f'Updating {self.application} service')
             self.stage_update(app_directory=directory)
-            app.logger.info(f'Installing requirements for {self.application} service')
             self.stage_install_requirements(app_directory=directory)
         except Exception as e:
             app.logger.debug(e)
